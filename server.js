@@ -70,31 +70,62 @@ var returnValue;
 
   app.post('/loginz', function(req,res){
     //res.sendfile("index.html");
-    console.log(" POST on loginz ");
-    var returnedHash;
+    //console.log(" POST on loginz ");
+    var returnedHash = '';
+    var returnValue = '';
     //res.sendFile("/home/androidx/holacode/NodeJSz/TESTz/MongoDBs/login.html");
     var user_namep= req.body.usernamep;
     var passwordp= req.body.passwordp;
     console.log("@loginz name: " + user_namep + " password: " + passwordp);
 
-    var returnValue = '';
+
+      //##########  CHECK FOR NAME EMPTY BEGIN
+      if(user_namep !== undefined){
+
      //tofinds(user_namep);
      // BEGIN SYNC
      tofinds(user_namep, function(data){
        returnValue = data;
        console.log("!!!!!!!!! this returnValue @ callback");
-       console.log("oook: " + returnValue);
-       console.log(returnValue[0]);
-       console.log(returnValue[1]);
-       console.log(returnValue[2]);
+       //console.log("oook: " + returnValue);
+       console.log(returnValue[0]);   //  NAME
+       console.log(returnValue[1]);   //  HASHED PASS
+       console.log(returnValue[2]);   //  SALT
 
-       returnedHash = hashPassword(returnValue[1], returnValue[2]);
-       console.log("88888888   THIS IS RETURNEDHASH: ");
-       console.log(returnedHash);
+       //returnedHash = "";
+        hashPassword(passwordp, returnValue[2], function(data){
+         returnedHash = data;
+         //console.log("88888888   THIS IS RETURNEDHASH: ");
+         //console.log(returnedHash);
+
+
+         console.log("99999999   THIS IS RETURnedVALUE: ");
+         console.log(returnValue[1]);
+         console.log("88888888   THIS IS RETURNEDHASH: ");
+         console.log(returnedHash);
+
+         if(returnValue[1] === returnedHash){
+           //res.redirect('/rebapusa');
+           console.log(" PASSWORD MATCHES \n ");
+           res.redirect('/rebapusa');
+         }else{
+
+           console.log(" WRONG  PASSWORD  \n ");
+         }
+
+       });
+
 
      });
 
-     // END SYNC
+
+   }else{
+
+     console.log("NAME field is empty!!");
+   }
+
+     //##########  CHECK FOR NAME EMPTY ENDS
+
 
 
 
@@ -102,11 +133,8 @@ var returnValue;
     //console.log("RETURN VALUE: ");
     //console.log(returnValue);
 
-    res.redirect('/rebapusa');
 
-    if(passwordp === "ok"){
-      //res.redirect('/rebapusa');
-    }
+
 
   //res.send('VERY SUCCESSFUL');
   });
@@ -159,13 +187,13 @@ app.listen(3000, function(){
 
 // ************************ ADDED HASHING BEGIN
 
-function hashPassword(candidatePassword, salt){
+function hashPassword(candidatePassword, saltp, hashReturnfunc){
 
   //console.log=("What hashing receiving: " + candidatePassword);
   var mySalt;
 
-  console.log("###############  THE SALT: " + salt);
-  console.log(salt);
+  //console.log("###############  THE SALT: " + saltp);
+  //console.log(saltp);
 
   bcrypt.genSalt(11, function(err, salt){
     if(err){
@@ -175,17 +203,16 @@ function hashPassword(candidatePassword, salt){
     //console.log(salt);
     //console.log("\n")
     //var mySalt = "$2a$11$stdmF96LTLs.jZmxsdBab.";
-    if(salt === undefined){
+    if(saltp === undefined){
 
       mySalt = "$2a$11$stdmF96LTLs.jZmxsdBab.";
     }else{
-      mySalt = salt;
+      mySalt = saltp;
     }
 
     var theSalt = mySalt;
 
     //console.log("This is my salt: " + mySalt);
-
     bcrypt.hash(candidatePassword, mySalt, function(err, hashedPassword){
       if(err){
         return console.log(err);
@@ -193,11 +220,19 @@ function hashPassword(candidatePassword, salt){
 
       //console.log("This is the hashedPassword: 111:" + hashedPassword);
 
-      InsertPass(user_name, hashedPassword, theSalt);
-      //return hashedPassword;
+      if(saltp === undefined){
+        InsertPass(user_name, hashedPassword, theSalt);
+        //return hashedPassword;
 
-      return hashedPassword;
-      //console.log(hashedPassword);
+      }else{
+        hashReturnfunc(hashedPassword);
+        //return hashedPassword;
+        //console.log(hashedPassword);
+
+      }
+
+
+
 
     })
 
@@ -230,7 +265,7 @@ var gval2;
 function togetValues(){
 
   var Array1 = [gval1, gval2];
-  console.log("This is Array1 at togetValues: " + Array1);
+  //console.log("This is Array1 at togetValues: " + Array1);
 
   return Array1;
 
