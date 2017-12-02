@@ -42,9 +42,17 @@ app.post('/login', function(req,res){
     user_name= req.body.username;
     password= req.body.password;
 
+    //##########  CHECK FOR NAME EMPTY BEGIN
+    if(user_name === undefined || user_name === ''){
+      console.log(" user_name is empty");
+    }
+    else{
+
     console.log("5th name: " + user_name + " password: " + password);
       hashPassword(password);
     res.redirect('/loginz');
+
+    }
     //printOut();
     //res.sendFile("/home/androidx/holacode/NodeJSz/TESTz/MongoDBs/rebapusa.html");
 
@@ -78,9 +86,13 @@ var returnValue;
     var passwordp= req.body.passwordp;
     console.log("@loginz name: " + user_namep + " password: " + passwordp);
 
-
+        console.log(typeof(user_namep));
       //##########  CHECK FOR NAME EMPTY BEGIN
-      if(user_namep !== undefined){
+      if(user_namep === undefined || user_namep === ''){
+        console.log(" user_namep is empty");
+      }
+      else{
+
 
      //tofinds(user_namep);
      // BEGIN SYNC
@@ -118,13 +130,11 @@ var returnValue;
 
      });
 
-
-   }else{
-
-     console.log("NAME field is empty!!");
+     //##########  CHECK FOR NAME EMPTY ENDS
    }
 
-     //##########  CHECK FOR NAME EMPTY ENDS
+
+
 
 
 
