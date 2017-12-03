@@ -21,6 +21,7 @@ var app = express();
 //var route = express.bodyParser();
 var bodyParser = require('body-parser');
 var routest = require('router');
+var request = require('request');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
@@ -34,13 +35,29 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', function(req,res){
   //res.sendfile("index.html");
+
   res.sendFile("/home/androidx/holacode/NodeJSz/TESTz/MongoDBs/index.html");
+
+
 });
 
 app.get('/quotez', function(req,res){
   //res.sendfile("index.html");
-var longQuote = "<h1>Quote of the day </h1> </br> <h3><q>On two occasions I have been asked, Pray, Mr. Babbage, if you put into the machine wrong figures, will the right answers come out? I am not able rightly to apprehend the kind of confusion of ideas that could provoke such a question. </q> </h3>";
-  res.send(longQuote);
+
+  var objt = '';
+  //request('http://quotes.stormconsultancy.co.uk/random.json', function (error, response, body) {
+  request('http://quotes.stormconsultancy.co.uk/random.json', function (error, response, body) {
+
+    console.log('error:', error); // Print the error if one occurred
+    console.log('statusCode:', response && response.statusCode);
+    objt = JSON.parse(body);
+    console.log(objt.quote);
+    var longQuote = "<html><body><center><h2>Programming Quotes API: </h2> </br> <h3><q>" + objt.quote + "</q></h3></center></body></html>";
+
+    res.send(longQuote);
+    //var longQuote = "<h1>Quote of the day </h1> </br> <h3><q>On two occasions I have been asked, Pray, Mr. Babbage, if you put into the machine wrong figures, will the right answers come out? I am not able rightly to apprehend the kind of confusion of ideas that could provoke such a question. </q> </h3>";
+      });
+
 });
 
 
@@ -127,7 +144,9 @@ var returnValue;
          if(returnValue[1] === returnedHash){
            //res.redirect('/rebapusa');
            console.log(" PASSWORD MATCHES \n ");
-           res.redirect('/rebapusa');
+           //res.redirect('/rebapusa');
+
+           res.redirect('/quotez');
          }else{
 
            console.log(" WRONG  PASSWORD  \n ");
