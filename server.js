@@ -37,6 +37,14 @@ app.get('/', function(req,res){
   res.sendFile("/home/androidx/holacode/NodeJSz/TESTz/MongoDBs/index.html");
 });
 
+app.get('/quotez', function(req,res){
+  //res.sendfile("index.html");
+var longQuote = "<h1>Quote of the day </h1> </br> <h3><q>On two occasions I have been asked, Pray, Mr. Babbage, if you put into the machine wrong figures, will the right answers come out? I am not able rightly to apprehend the kind of confusion of ideas that could provoke such a question. </q> </h3>";
+  res.send(longQuote);
+});
+
+
+
 // POST /login gets urlencoded bodies
 app.post('/login', function(req,res){
     user_name= req.body.username;
