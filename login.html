@@ -1,5 +1,7 @@
+<!DOCTYPE html>
 <html>
   <head>
+    <meta charset="UTF-8">
     <title> Jorge's login </title>
   </head>
 <body>
@@ -9,22 +11,27 @@
     <!-- <form name="login-form" method="post" action="http://187.202.253.116:3000/loginz"> -->
     <form name="login-form" method="post" action="http://localhost:3000/loginz">
       <p>Enter your username </p>
-      <input type="text" id="user" name="usernamep" size="40"><br>
+      <input type="text" id="user" name="usernamep" size="40" required><br>
       <p>Enter your password</p>
-      <input type="password" id="password" name="passwordp" size="40"><br>
+      <input type="password" id="password" name="passwordp" size="40" required><br>
     </br>
       <input type="submit" id="submit" value="Submit">
 
     </form>
     </center>
-  </br>
-    <ul>
-      <li>The Password you entered was hashed</li>
-      <li>Your Username and the hash were inserted into the database</li>
-      <li>Now your information will be retrieve from the db, based on your Username</li>
-      <li>The Password you are about to enter will be hashed and then compare against the one in the db</li>
-      <li>If the Passwords match you will be redirected to Programming Quotes</li>
-    </ul>
+    </br>
+      <ul>
+        <li>The Password you entered was hashed</li>
+        <li>Your Username and the hash were inserted into the database</li>
+        <li>Now your information will be retrieve from the db, based on your Username</li>
+        <li>The Password you are about to enter will be hashed and then compare against the one in the db</li>
+        <li>If the Passwords match you will be redirected to Programming Quotes</li>
+      </ul>
+
+        </br></br></br></br></br>
+        <center>
+        <p> &copy; 2017 Jorge Lerma </p>
+        </center>
 
 
 
