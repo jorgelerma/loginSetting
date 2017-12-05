@@ -1,3 +1,5 @@
+
+
 var express = require('express');
 //var fs = require('fs');
 var bodyParser = require('body-parser');
@@ -23,7 +25,15 @@ var bodyParser = require('body-parser');
 var routest = require('router');
 var request = require('request');
 
+var fetch = require('node-fetch');
+
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
+
+require('./app/routes')(app, {});
+app.listen(3000, function(){
+  console.log("Started on port 3000");
+});
+
 
 // ****************** ADDED ENDS
 
@@ -48,17 +58,73 @@ app.get('/quotez', function(req,res){
   //request('http://quotes.stormconsultancy.co.uk/random.json', function (error, response, body) {
   request('http://quotes.stormconsultancy.co.uk/random.json', function (error, response, body) {
 
+    //request('http://www.akfaf.com', function (error, response, body) {
+
     console.log('error:', error); // Print the error if one occurred
     console.log('statusCode:', response && response.statusCode);
     objt = JSON.parse(body);
     console.log(objt.quote);
-    var longQuote = "<html><body><center><h2>Programming Quotes API: </h2> </br> <h3><q>" + objt.quote + "</q></h3></center></body></html>";
 
-    res.send(longQuote);
-    //var longQuote = "<h1>Quote of the day </h1> </br> <h3><q>On two occasions I have been asked, Pray, Mr. Babbage, if you put into the machine wrong figures, will the right answers come out? I am not able rightly to apprehend the kind of confusion of ideas that could provoke such a question. </q> </h3>";
+    var tmp2 = '';
+
+    //var vQuote = fetchquote();
+
+      fetchquote(function(infoz){
+
+        //tmp2 = infoz;
+        console.log("This is ******* infoz: ");
+        console.log("infoz: " + infoz.title);
+        console.log(infoz);
+
+        //tmp2 = infoz;
+        toPrint(infoz);
+
       });
+    });
+
+    function toPrint(tmp3){
+      console.log("This is TMP3z: ");
+      console.log(typeof(tmp3));
+      console.log(tmp3.length);
+      console.log(tmp3);
+      tmp2 = tmp3;
+
+      var longQuote1 = "<html><body><center><h2>Programming Quotes API: </h2> </br> <h3><q>" + objt.quote + "</q></h3></center></br></br>";
+      var longQuote2 = "</br></br><center><h2>JSONPlaceholder's API </h2></br><h3>" + tmp3.body + "</h3></br></br></br><p> &copy; 2017 Jorge Lerma </p></center></body></html>";
+      var totalQuote = longQuote1 + longQuote2;
+      res.send(totalQuote);
+
+      }
+
+      //console.log("222222222222222222  This is TMP2z: ");
+      //console.log(typeof(tmp2));
+      //console.log(tmp2);
+
+
+
+
+
+
+
+    //console.log("This is vQuote: ");
+    //console.log(vQuote);
+
+    //res.send(vQuote);
+    //var longQuote = "<h1>Quote of the day </h1> </br> <h3><q>On two occasions I have been asked, Pray, Mr. Babbage, if you put into the machine wrong figures, will the right answers come out? I am not able rightly to apprehend the kind of confusion of ideas that could provoke such a question. </q> </h3>";
+
 
 });
+
+// $$$$$$$$$$$$$$$$$$$$   toPrint fucnt
+
+function toPrint(toprintz){
+  console.log("This is TMP2z: ");
+  console.log(typeof(tmp2));
+  console.log(tmp2.length);
+  console.log(tmp2);
+  }
+
+  // $$$$$$$$$$$$$$$$$$$$   toPrint fucnt
 
 
 
@@ -216,9 +282,6 @@ console.log(" 3nd name: " + user_name + " password: " + password);
 
 
 
-app.listen(3000, function(){
-  console.log("Started on port 30000");
-});
 
 
 
@@ -385,6 +448,34 @@ MongoClient.connect(url, function(err, db) {
   //console.log("s "+results);
 }
 
+
+function fetchquote(resp){
+  fetch('http://jsonplaceholder.typicode.com/posts/1')
+  .then(function(data){
+    return data.json();
+  }).then(function(parsed){
+    resp(parsed);
+  });
+
+
+
+
+  /*
+  fetch('http://jsonplaceholder.typicode.com/posts/1').then(function(response){
+    return response.json();}).then(function(json){
+
+
+
+       tmpz = json;
+       console.log("This is at fetchquote funct: ");
+       console.log(json);
+       passer(json);
+
+      });
+      */
+
+      //return tmpz;
+}  // end fetchqutoe function
 
 
 // ************************ ADDED RETRIEVEdb ENDS
