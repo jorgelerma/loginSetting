@@ -1,2 +1,0 @@
-# loginSetting
-Login page
