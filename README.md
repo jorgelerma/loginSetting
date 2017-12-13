@@ -10,3 +10,7 @@ Your Username and the hash were inserted into a Mongodb database
 When someone tries to login the information will be retrieve from the db, based on the Username
 The Password that is entered will be hashed and then compare against the one in the db
 If the Passwords match you will be redirected to Programming Quotes
+
+
+You will need to have the following installed:
+Nodejs, Mongodb, Bcrypt, npm router.
